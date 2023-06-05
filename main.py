@@ -42,14 +42,48 @@ def two(img):
     # cv.imshow("test", cv.cvtColor(test, cv.COLOR_HSV2BGR))
 
 def three():
-    pass
+    input = cv.imread("FigSource.png")
+    target = cv.imread("FigTarget.png")
+    cv.imshow("inputOrig", input)
+    inputFloat = cv.normalize(input, None, 0.0, 1.0, cv.NORM_MINMAX, cv.CV_32F)
+    targetFloat = cv.normalize(target, None, 0.0, 1.0, cv.NORM_MINMAX, cv.CV_32F)
+
+    # convert to lab
+    inputLab = cv.cvtColor(inputFloat, cv.COLOR_BGR2LAB)
+    targetLab = cv.cvtColor(targetFloat, cv.COLOR_BGR2LAB)
+    # l is brightness, A is green-red, B is blue-yellow
+    inputL, inputA, inputB = cv.split(inputLab)
+    targetL, targetA, targetB = cv.split(targetLab)
+    
+    inputL = inputL - np.mean(inputL)
+    inputA = inputA - np.mean(inputA)
+    inputB = inputB - np.mean(inputB)
+
+    inputL = inputL / np.std(inputL)
+    inputA = inputA / np.std(inputA)
+    inputB = inputB / np.std(inputB)
+
+    inputL = inputL * np.std(targetL)
+    inputA = inputA * np.std(targetA)
+    inputB = inputB * np.std(targetB)
+
+    inputL = inputL + np.mean(targetL)
+    inputA = inputA + np.mean(targetA)
+    inputB = inputB + np.mean(targetB)
+
+    #convert to rbg
+    inputLab = cv.merge([inputL, inputA, inputB])
+    inputBGR = cv.cvtColor(inputLab, cv.COLOR_LAB2BGR)
+    cv.imshow("changed", inputBGR)
+    cv.imshow("target", target)
+
 
 
 if __name__ == '__main__':
     image = cv.imread("yoshi.png")
-    cv.imshow("yoshi", image)
+    #cv.imshow("yoshi", image)
     #one(image.copy())
-    two(image.copy())
+    #two(image.copy())
     three()
     cv.waitKey(0)
     cv.destroyAllWindows()
