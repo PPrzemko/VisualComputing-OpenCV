@@ -41,6 +41,7 @@ def two(img):
     # cv.imshow("2", cv.cvtColor(imghsv, cv.COLOR_HSV2BGR))
     # cv.imshow("test", cv.cvtColor(test, cv.COLOR_HSV2BGR))
 
+
 def three():
     input = cv.imread("FigSource.png")
     target = cv.imread("FigTarget.png")
@@ -54,7 +55,7 @@ def three():
     # l is brightness, A is green-red, B is blue-yellow
     inputL, inputA, inputB = cv.split(inputLab)
     targetL, targetA, targetB = cv.split(targetLab)
-    
+
     inputL = inputL - np.mean(inputL)
     inputA = inputA - np.mean(inputA)
     inputB = inputB - np.mean(inputB)
@@ -71,19 +72,24 @@ def three():
     inputA = inputA + np.mean(targetA)
     inputB = inputB + np.mean(targetB)
 
-    #convert to rbg
+    # convert to rbg
     inputLab = cv.merge([inputL, inputA, inputB])
     inputBGR = cv.cvtColor(inputLab, cv.COLOR_LAB2BGR)
     cv.imshow("changed", inputBGR)
     cv.imshow("target", target)
 
 
-
 if __name__ == '__main__':
     image = cv.imread("yoshi.png")
-    #cv.imshow("yoshi", image)
-    #one(image.copy())
-    #two(image.copy())
+    # cv.imshow("yoshi", image)
+    one(image.copy())
+    cv.waitKey(0)
+    cv.destroyAllWindows()
+
+    two(image.copy())
+    cv.waitKey(0)
+    cv.destroyAllWindows()
+
     three()
     cv.waitKey(0)
     cv.destroyAllWindows()
