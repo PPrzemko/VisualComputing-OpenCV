@@ -63,27 +63,25 @@ def fivetwo(image):
 def fivethree():
 
     image = cv.imread('kante.png')
-
     F1 = np.array([[0, 0, 0],
                 [-1,  1, 0],
                 [0, 0, 0]], dtype=np.float32)
-
     F2 = np.array([[0, 0, 0],
                 [0,  -1, 1],
                 [0, 0, 0]], dtype=np.float32)
-
+    # erkennt kanten in x richtung
     F3 = np.array([[0, 0, 0],
                 [1,  -2, 1],
                 [0, 0, 0]], dtype=np.float32)
-    
+    # verzerrt das bild in x richtung
     F4 = np.array([[0,  0, 0],
                 [0.333,  0.333,  0.333],
                 [0, 0,  0]], dtype=np.float32)
-    
+    # does nothing
     F5 = np.array([[0,  0, 0],
                 [0,  1,  0],
                 [0, 0,  0]], dtype=np.float32)
-    
+    # kantenerkennung weniger kontrastreich
     F6 = np.array([[0,  0, 0],
                 [0.333,  -0.666,  0.333],
                 [0, 0,  0]], dtype=np.float32)
@@ -101,8 +99,8 @@ def fivethree():
 
 
 
-    result4 = cv.filter2D(image.copy(), -1, F4, delta=delta)
-    result5 = cv.filter2D(image.copy(), -1, F5, delta=delta)
+    result4 = cv.filter2D(image.copy(), -1, F4)
+    result5 = cv.filter2D(image.copy(), -1, F5)
     result6 = cv.filter2D(image.copy(), -1, F6, delta=delta)
 
 
@@ -147,5 +145,5 @@ if __name__ == '__main__':
     #fiveone(imggrey)
     #cv.imshow("inputOrig", img)
     #fivetwo(imggrey)
-    #fivethree()
+    fivethree()
 
